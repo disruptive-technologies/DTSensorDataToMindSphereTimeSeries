@@ -38,7 +38,7 @@ namespace SensorDataToMindSphereTimeSeries
             var content = req.Content.ReadAsStringAsync().Result;
             var device = JsonConvert.DeserializeObject<Device>(content);
 
-            var sensorId = GetSensorIdByDevice(device);
+            var sensorId = GetSensorIdFromDevice(device);
             var sensorValue = GetSensorValueByDeviceType(device);
 
             /*
@@ -78,7 +78,7 @@ namespace SensorDataToMindSphereTimeSeries
         }
 
 
-        private static string GetSensorIdByDevice(Device device)
+        private static string GetSensorIdFromDevice(Device device)
         {
             return device.Event.TargetName.Split('/').LastOrDefault();
         }
