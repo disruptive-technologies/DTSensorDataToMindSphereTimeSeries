@@ -29,7 +29,7 @@ namespace SensorDataToMindSphereTimeSeries
              */
             var userName = Environment.GetEnvironmentVariable("service_credentials_username");
             var password = Environment.GetEnvironmentVariable("secret_key");
-            var tenantName = Environment.GetEnvironmentVariable("tenantName");
+            var tenantName = Environment.GetEnvironmentVariable("tenant_name");
             var accessToken = await GetMindSphereAccessToken(userName, password, tenantName);
 
             /*
@@ -58,7 +58,7 @@ namespace SensorDataToMindSphereTimeSeries
              * If you choose to create an Aspect in MindSphere with a different name,
              * you can for example set up a DB where you can find which AssetId and aspectName the sensorId belongs to.
              */
-            var assetId = "";
+            var assetId = Environment.GetEnvironmentVariable("asset_id");
             var aspectName = sensorId;
             var baseUrl = "https://gateway.eu1.mindsphere.io/api";
             var url = $"{baseUrl}/iottimeseries/v3/timeseries/{assetId}/{aspectName}";
@@ -129,7 +129,7 @@ namespace SensorDataToMindSphereTimeSeries
 
             if (response.IsSuccessStatusCode)
             {
-                var result = await response.Content.ReadAsStringAsync();
+                var content = await response.Content.ReadAsStringAsync();
                 var json = JsonConvert.DeserializeObject<JObject>(result);
                 var accessToken = json["access_token"].Value<string>();
                 return accessToken;
